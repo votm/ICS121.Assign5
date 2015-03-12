@@ -58,7 +58,7 @@ public class IndexFiles {
   public static void main(String[] args) {
     String usage = ":-)";
     String indexPath = "index";
-    String docsPath = "/Users/Tyn/Documents/workspace/lucene-assign5/text_files";
+    String docsPath = "/Users/Cheddar/Documents/Assignment 5/lucene-assign5/text_files";
     boolean create = true;
     for(int i=0;i<args.length;i++) {
       if ("-index".equals(args[i])) {
@@ -194,7 +194,15 @@ public class IndexFiles {
           // Note that FileReader expects the file to be in UTF-8 encoding.
           // If that's not the case searching for special characters will fail.
           doc.add(new TextField("contents", new BufferedReader(new InputStreamReader(fis, StandardCharsets.UTF_8))));
-
+          
+          TextField titleField = new TextField("title", getTitle(fis), Field.Store.YES);
+          titleField.boost();
+          doc.add(titleField);
+          
+          TextField authorField = new TextField("author", getAuthor(fis), Field.Store.YES);
+          authorField.boost();
+          doc.add(authorField);
+          
           if (writer.getConfig().getOpenMode() == OpenMode.CREATE) {
             // New index, so we just add the document (no old document can be there):
             System.out.println("adding " + file);
