@@ -53,7 +53,10 @@ import java.util.Date;
 public class IndexFiles {
   
   private IndexFiles() {}
-
+  
+  private static String title = "";
+  private static String author = "";
+  
   /** Index all text files under a directory. */
   public static void main(String[] args) {
     String usage = ":-)";
@@ -195,6 +198,8 @@ public class IndexFiles {
           // If that's not the case searching for special characters will fail.
           doc.add(new TextField("contents", new BufferedReader(new InputStreamReader(fis, StandardCharsets.UTF_8))));
           
+          //getTitle(fis);
+          
           TextField titleField = new TextField("title", getTitle(fis), Field.Store.YES);
           titleField.boost();
           doc.add(titleField);
@@ -221,13 +226,24 @@ public class IndexFiles {
       }
     }
   }
-
-private static String getAuthor(FileInputStream fis) {
-	return null;
-}
-
-private static String getTitle(FileInputStream fis) {
-	// TODO Auto-generated method stub
-	return null;
-}
+  	private static String getTitle(FileInputStream fis) throws IOException {
+		int content;
+		String text = "";
+		title = "";
+		while ((content = fis.read()) != (int)'*') {
+			text += (char)content;
+		}
+		title = text.split("Title: ")[1].split("Author: ")[0];
+		author = text.split("Title: ")[1].split("Author: ")[1].split("\n")[0];
+		System.out.println(title);
+		return title;
+	}	
+  
+  
+	private static String getAuthor(FileInputStream fis) throws IOException {
+		System.out.println(author);
+		return author;
+	}
+	
+	
 }
