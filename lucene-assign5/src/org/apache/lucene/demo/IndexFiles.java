@@ -221,4 +221,13 @@ public class IndexFiles {
       }
     }
   }
+
+private static String getAuthor(FileInputStream fis) {
+	return null;
+}
+
+private static String getTitle(FileInputStream fis) {
+	// TODO Auto-generated method stub
+	return null;
+}
 }
